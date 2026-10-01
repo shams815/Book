@@ -1,1 +1,695 @@
-<p>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotel Booking</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f5f7fb;
+        color: #1d2433;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .container {
+        width: min(1200px, 90%);
+        margin: 0 auto;
+      }
+
+      header {
+        background: linear-gradient(135deg, #0e3a5c, #225a7a);
+        color: white;
+        padding: 20px 0 100px;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+      }
+
+      .nav {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+      }
+
+      .nav a {
+        opacity: 0.85;
+      }
+
+      .nav .btn {
+        background: #fff;
+        color: #123d5d;
+        padding: 10px 18px;
+        border-radius: 30px;
+        font-weight: 600;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        align-items: center;
+        gap: 30px;
+        margin-top: 40px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.5rem, 4vw, 4rem);
+        margin: 0 0 15px;
+        line-height: 1.1;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        opacity: 0.9;
+        margin-bottom: 25px;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        display: inline-block;
+        padding: 14px 20px;
+        border-radius: 12px;
+        font-weight: 700;
+        transition: 0.2s ease;
+      }
+
+      .btn-primary {
+        background: #ffbf47;
+        color: #1d2433;
+      }
+
+      .btn-secondary {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        color: white;
+      }
+
+      .hero-card {
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 24px;
+        padding: 22px;
+        backdrop-filter: blur(8px);
+      }
+
+      .mini-card {
+        background: white;
+        color: #1d2433;
+        border-radius: 18px;
+        padding: 20px;
+        box-shadow: 0 15px 35px rgba(8, 59, 92, 0.12);
+      }
+
+      .mini-card .rating {
+        display: inline-flex;
+        align-items: center;
+        background: #ecf7ee;
+        color: #1f8f4b;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-weight: 700;
+        margin-bottom: 15px;
+      }
+
+      .mini-card h3 {
+        margin: 0 0 10px;
+        font-size: 1.6rem;
+      }
+
+      .mini-card p {
+        color: #5a6475;
+        margin: 0 0 18px;
+      }
+
+      .price {
+        font-size: 2rem;
+        font-weight: 700;
+      }
+
+      .price span {
+        font-size: 0.95rem;
+        color: #5a6475;
+        font-weight: 500;
+      }
+
+      .search-box {
+        background: white;
+        border-radius: 20px;
+        padding: 18px;
+        box-shadow: 0 20px 40px rgba(17, 47, 71, 0.12);
+        margin-top: -45px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .search-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 0.86rem;
+        color: #57657a;
+      }
+
+      .field input,
+      .field select {
+        border: 1px solid #dfe6f1;
+        border-radius: 12px;
+        padding: 14px 15px;
+        font-size: 1rem;
+        background: #f9fbff;
+      }
+
+      .search-btn {
+        border: none;
+        background: #0f5d8d;
+        color: white;
+        border-radius: 12px;
+        padding: 15px 18px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      main {
+        padding: 40px 0 70px;
+      }
+
+      section {
+        margin-bottom: 50px;
+      }
+
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        margin-bottom: 22px;
+      }
+
+      .section-head h2 {
+        font-size: 2rem;
+        margin: 0;
+      }
+
+      .view-all {
+        color: #0d5c8d;
+        font-weight: 700;
+      }
+
+      .offers {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+      }
+
+      .offer-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 24px rgba(20, 46, 73, 0.08);
+      }
+
+      .offer-image {
+        height: 180px;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .offer-body {
+        padding: 20px;
+      }
+
+      .tag {
+        display: inline-block;
+        background: #ebf6ff;
+        color: #145d95;
+        border-radius: 999px;
+        padding: 7px 10px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+
+      .offer-body h3 {
+        margin: 0 0 10px;
+        font-size: 1.4rem;
+      }
+
+      .offer-body p {
+        margin: 0 0 18px;
+        color: #58657d;
+        line-height: 1.6;
+      }
+
+      .offer-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .price-small {
+        font-size: 1.35rem;
+        font-weight: 700;
+      }
+
+      .price-small span {
+        font-size: 0.8rem;
+        color: #58657d;
+      }
+
+      .hotel-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 24px;
+      }
+
+      .hotel-card {
+        background: white;
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 14px 28px rgba(18, 45, 63, 0.08);
+      }
+
+      .hotel-image,
+      .room-image {
+        height: 220px;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .hotel-body {
+        padding: 18px 18px 22px;
+      }
+
+      .hotel-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+
+      .star {
+        color: #f4b740;
+        letter-spacing: 1px;
+      }
+
+      .hotel-card h3 {
+        margin: 0 0 8px;
+        font-size: 1.4rem;
+      }
+
+      .meta {
+        color: #58657d;
+        margin-bottom: 14px;
+      }
+
+      .hotel-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 18px;
+      }
+
+      .book-btn {
+        padding: 10px 16px;
+        background: #e7f6ff;
+        color: #0d5c8d;
+        border-radius: 12px;
+        font-weight: 700;
+      }
+
+      .rooms {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 24px;
+      }
+
+      .room-card {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        background: white;
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 12px 26px rgba(20, 46, 73, 0.08);
+      }
+
+      .room-body {
+        padding: 22px;
+      }
+
+      .room-body h3 {
+        margin: 0 0 8px;
+      }
+
+      .amenities {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 18px 0;
+      }
+
+      .amenities span {
+        background: #f1f5f9;
+        color: #3c475d;
+        padding: 8px 10px;
+        border-radius: 999px;
+        font-size: 0.8rem;
+      }
+
+      .room-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .side-panel {
+        background: linear-gradient(180deg, #122a3d, #0b1e2c);
+        color: white;
+        border-radius: 22px;
+        padding: 28px;
+      }
+
+      .side-panel h3 {
+        font-size: 1.8rem;
+        margin: 8px 0 18px;
+      }
+
+      .stat {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 18px 0;
+        opacity: 0.9;
+      }
+
+      .stat strong {
+        font-size: 1.2rem;
+      }
+
+      footer {
+        background: #0d1d2d;
+        color: rgba(255, 255, 255, 0.86);
+        padding: 26px 0;
+      }
+
+      .footer-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+      }
+
+      @media (max-width: 900px) {
+        .hero,
+        .rooms,
+        .search-grid,
+        .offers,
+        .hotel-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .nav {
+          display: none;
+        }
+
+        .room-card {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="topbar">
+          <div class="logo">StayNest</div>
+          <nav class="nav">
+            <a href="#">Stays</a>
+            <a href="#">Flights</a>
+            <a href="#">Experiences</a>
+            <a href="#">Support</a>
+            <a class="btn" href="#">Sign in</a>
+          </nav>
+        </div>
+
+        <div class="hero">
+          <div>
+            <h1>Book your next getaway in minutes.</h1>
+            <p>
+              Discover hand-picked stays, easy booking, and unforgettable comfort
+              for every kind of trip, from city escapes to beach retreats.
+            </p>
+            <div class="hero-actions">
+              <a class="btn-primary" href="#booking">Plan a trip</a>
+              <a class="btn-secondary" href="#deals">Explore deals</a>
+            </div>
+          </div>
+
+          <div class="hero-card">
+            <div class="mini-card">
+              <div class="rating">★ 4.9 Guest favorite</div>
+              <h3>Azure Cove Hotel</h3>
+              <p>Oceanfront luxury • 2 min from the city center</p>
+              <div class="price">$220 <span>/ night</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="search-box" id="booking">
+        <div class="search-grid">
+          <label class="field">
+            <span>Destination</span>
+            <input type="text" value="Dubai" />
+          </label>
+          <label class="field">
+            <span>Check-in</span>
+            <input type="date" value="2026-11-10" />
+          </label>
+          <label class="field">
+            <span>Check-out</span>
+            <input type="date" value="2026-11-15" />
+          </label>
+          <label class="field">
+            <span>Guests</span>
+            <select>
+              <option>2 Adults, 1 Room</option>
+              <option>3 Adults, 1 Room</option>
+              <option>4 Adults, 2 Rooms</option>
+            </select>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <main>
+      <div class="container">
+        <section id="deals">
+          <div class="section-head">
+            <h2>Special offers</h2>
+            <a class="view-all" href="#">View all</a>
+          </div>
+
+          <div class="offers">
+            <article class="offer-card">
+              <div
+                class="offer-image"
+                style="background-image: url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80');"
+              ></div>
+              <div class="offer-body">
+                <div class="tag">Weekend deal</div>
+                <h3>City skyline stay</h3>
+                <p>Save up to 30% on premium rooms in the heart of downtown.</p>
+                <div class="offer-bottom">
+                  <div class="price-small">$180 <span>/ night</span></div>
+                  <a class="book-btn" href="#">Book now</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="offer-card">
+              <div
+                class="offer-image"
+                style="background-image: url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=900&q=80');"
+              ></div>
+              <div class="offer-body">
+                <div class="tag">Family escape</div>
+                <h3>Beachfront resort</h3>
+                <p>Enjoy free breakfast, pool access, and family-friendly suites.</p>
+                <div class="offer-bottom">
+                  <div class="price-small">$240 <span>/ night</span></div>
+                  <a class="book-btn" href="#">Book now</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="offer-card">
+              <div
+                class="offer-image"
+                style="background-image: url('https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80');"
+              ></div>
+              <div class="offer-body">
+                <div class="tag">Limited time</div>
+                <h3>Mountain retreat</h3>
+                <p>Relax in cozy cabins with hot tub access and scenic views.</p>
+                <div class="offer-bottom">
+                  <div class="price-small">$195 <span>/ night</span></div>
+                  <a class="book-btn" href="#">Book now</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section>
+          <div class="section-head">
+            <h2>Popular stays</h2>
+            <a class="view-all" href="#">More hotels</a>
+          </div>
+
+          <div class="hotel-grid">
+            <article class="hotel-card">
+              <div
+                class="hotel-image"
+                style="background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80');"
+              ></div>
+              <div class="hotel-body">
+                <div class="hotel-row">
+                  <h3>Harbor View</h3>
+                  <span class="star">★★★★★</span>
+                </div>
+                <div class="meta">Dubai Marina · 8.9/10</div>
+                <div class="hotel-footer">
+                  <div class="price-small">$210 <span>/ night</span></div>
+                  <a class="book-btn" href="#">Book</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="hotel-card">
+              <div
+                class="hotel-image"
+                style="background-image: url('https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=900&q=80');"
+              ></div>
+              <div class="hotel-body">
+                <div class="hotel-row">
+                  <h3>Sunset Pearl</h3>
+                  <span class="star">★★★★★</span>
+                </div>
+                <div class="meta">Palm Jumeirah · 9.1/10</div>
+                <div class="hotel-footer">
+                  <div class="price-small">$260 <span>/ night</span></div>
+                  <a class="book-btn" href="#">Book</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="hotel-card">
+              <div
+                class="hotel-image"
+                style="background-image: url('https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=900&q=80');"
+              ></div>
+              <div class="hotel-body">
+                <div class="hotel-row">
+                  <h3>Alpine Haven</h3>
+                  <span class="star">★★★★☆</span>
+                </div>
+                <div class="meta">Swiss Alps · 8.7/10</div>
+                <div class="hotel-footer">
+                  <div class="price-small">$175 <span>/ night</span></div>
+                  <a class="book-btn" href="#">Book</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section>
+          <div class="section-head">
+            <h2>Top room picks</h2>
+            <a class="view-all" href="#">See all rooms</a>
+          </div>
+
+          <div class="rooms">
+            <article class="room-card">
+              <div
+                class="room-image"
+                style="background-image: url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80');"
+              ></div>
+              <div class="room-body">
+                <h3>Deluxe Ocean View Suite</h3>
+                <div class="meta">Sleeps 2 · 42 m² · King bed</div>
+                <div class="amenities">
+                  <span>Free Wi-Fi</span>
+                  <span>Breakfast</span>
+                  <span>Ocean view</span>
+                  <span>Air conditioning</span>
+                </div>
+                <div class="room-footer">
+                  <div class="price-small">$290 <span>/ night</span></div>
+                  <a class="book-btn" href="#">Reserve</a>
+                </div>
+              </div>
+            </article>
+
+            <aside class="side-panel">
+              <div class="tag" style="background: rgba(255,255,255,0.12); color: white;">This week</div>
+              <h3>Travel smarter</h3>
+              <div class="stat">
+                <span>Average nightly rate</span>
+                <strong>$225</strong>
+              </div>
+              <div class="stat">
+                <span>Free cancellations</span>
+                <strong>90%</strong>
+              </div>
+              <div class="stat">
+                <span>Guest satisfaction</span>
+                <strong>4.9/5</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container footer-row">
+        <div>© 2026 StayNest</div>
+        <div>Privacy · Terms · Support</div>
+      </div>
+    </footer>
+  </body>
+</html>
